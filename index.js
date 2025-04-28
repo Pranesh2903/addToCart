@@ -1,8 +1,8 @@
 
-let CardDetails = [{id:1, img:"/images/samsung-galaxy.jpg", name:"Samsung", Price: 200, quantity: 1, like : false}, 
-    {id:2, img:"/images/realme.jpg", name:"Realme", Price:100, quantity: 1, like : false},
-    {id:3, img:"/images/redme.jpg", name:"Redmi", Price:150, quantity: 1, like : false}, 
-    {id:4, img:"/images/iqoo.jpg", name:"IQOO", Price:200, quantity: 1, like : false},
+let CardDetails = [{id:1, img:"./images/samsung-galaxy.jpg", name:"Samsung", Price: 200, quantity: 1, like : false}, 
+    {id:2, img:"./images/realme.jpg", name:"Realme", Price:100, quantity: 1, like : false},
+    {id:3, img:"./images/redme.jpg", name:"Redmi", Price:150, quantity: 1, like : false}, 
+    {id:4, img:"./images/iqoo.jpg", name:"IQOO", Price:200, quantity: 1, like : false},
 ];
 
 let categoryDetails = [
