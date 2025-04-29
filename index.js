@@ -1,8 +1,8 @@
 
-let CardDetails = [{id:1, img:"./images/samsung-galaxy.jpg", name:"Samsung", Price: 200, quantity: 1, like : false}, 
-    {id:2, img:"./images/realme.jpg", name:"Realme", Price:100, quantity: 1, like : false},
-    {id:3, img:"./images/redme.jpg", name:"Redmi", Price:150, quantity: 1, like : false}, 
-    {id:4, img:"./images/iqoo.jpg", name:"IQOO", Price:200, quantity: 1, like : false},
+let CardDetails = [{id:1, img:"./images/samsung-galaxy.jpg", name:"Samsung", Price: 200, quantity: 1, like : false, maxQty : 2}, 
+    {id:2, img:"./images/realme.jpg", name:"Realme", Price:100, quantity: 1, like : false, maxQty : 3},
+    {id:3, img:"./images/redme.jpg", name:"Redmi", Price:150, quantity: 1, like : false, maxQty : 2}, 
+    {id:4, img:"./images/iqoo.jpg", name:"IQOO", Price:200, quantity: 1, like : false, maxQty : 3}
 ];
 
 let categoryDetails = [
@@ -13,7 +13,11 @@ let categoryDetails = [
     
 ]
 
+let usdetails = JSON.parse(localStorage.getItem("details"));
 
+console.log(usdetails[0]);
+
+document.getElementById("username").innerHTML = usdetails[0];
 
 function displayCard(){
     let cards = document.getElementById("duplicating").innerHTML = CardDetails.map((value, index) =>{
@@ -106,25 +110,58 @@ let num = document.getElementById("nos");
 
 
 
-let cardData = [];
+// let card = ;
+
+// console.log(card);
+
+
+let cardData = JSON.parse(localStorage.getItem("cardData")) || [] ;
+
+
+function count(){
+  let totCount =  cardData.reduce((acc , curr) =>{
+        return acc += curr.quantity;
+    }, 0) 
+    document.getElementById("count").innerHTML = totCount;
+}
+
+
+
 function addCardData(ind){
     
+    let addedItem = CardDetails[ind];
 
-    let temp = cardData.some((value , index) => {
-         return index === ind;
+    let alreadyAdded = cardData.find((value , index) =>{
+        return value.id === addedItem.id;
     })
-    let temp1 = cardData.find((value , index) => {
-         return index === ind;
-    })
-        if (temp1) {
-            temp1.quantity++;
+//     let temp1 = cardData.find((value , index) => {
+//         return index === ind;
+//    })
+
+    
+   
+
+
+    
+        if (alreadyAdded) {
+                if (alreadyAdded.quantity < addedItem.maxQty) {
+                    // console.log("reached limit");
+                    alreadyAdded.quantity++;
+              }                               
+              else{
+                alert("reached limit");
+              }
         }
         else{
             
         cardData.push(CardDetails[ind]);
         }
         
+        localStorage.setItem("cardData", JSON.stringify(cardData));
+
   displayCardDetails();
+  count()
+
 }
 
 function displayCardDetails() {
@@ -150,6 +187,8 @@ function displayCardDetails() {
     
 
     document.getElementById("addedToCarts").innerHTML = cardData.map((value, index)=>{
+        console.log(value);
+        
         let total = value.Price * value.quantity;
         final_Total += total;
         return ` <div class="container-fluid mt-3">
@@ -164,14 +203,14 @@ function displayCardDetails() {
                         <div class="col-4">
                             <button class="btn" onclick="increaseQuantity(${value.id}, ${1})"  id="plusBtn">+</button>
                             <span id="nos">${value.quantity}</span>
-                            <button class="btn"onclick="increaseQuantity(${value.id}, ${-1})"   id="minusBtn">-</button>
+                            <button class="btn"onclick="decreaseQuantity(${value.id}, ${-1})"   id="minusBtn">-</button>
                             
                         </div>
                         <div class="col-2">
                             <h6>Price: ${total}</h6>
                         </div>
                         <div class="col-2 ">
-                            <button class="btn-close" id="closebtn"></button>
+                            <button class="btn-close" id="closebtn" onClick = "removeItem(${value.id})"></button>
                         </div>
                     </div>
                 </div>
@@ -181,26 +220,77 @@ function displayCardDetails() {
     document.getElementById("overALL_Total").innerHTML = `Over All = $${final_Total}`;
 }
 
-function increaseQuantity(userId , count) {
-      console.log(userId,count)
+
+
+
+
+function removeItem(valueId) {
+    cardData = cardData.filter(value =>{
+        return value.id !== valueId;
+    });
+
+    document.getElementById("count").innerHTML = 0;
+
+    localStorage.setItem("cardData", JSON.stringify(cardData));
+    displayCardDetails();
+    count()
+}
+
+function increaseQuantity(userId , count1) {
+    //   console.log(userId,count1)
 
      let temp = cardData.find((value, index)=>{
         return value.id === userId;
       })
-      console.log(temp);
-      if (temp) {
-        temp.quantity = Math.max(1,temp.quantity += count);
-      }
+
+    //   if (temp.quantity + count1 > temp.maxQty) {
+    //        alert("Reached Limit")    
+    //   }
+        if (temp.quantity < temp.maxQty) {
+            // console.log("reached limit");
+            temp.quantity += count1;
+            }                               
+        else{
+             alert("reached limit");
+        }
+      
+    //   if (temp) {
+      
+    //   }
+
+
+    localStorage.setItem("cardData", JSON.stringify(cardData));
       displayCardDetails();
 
+   
+      count()
+      
+}
+function decreaseQuantity(userId , count1) {
+    //   console.log(userId,count1)
 
+     let temp = cardData.find((value, index)=>{
+        return value.id === userId;
+      })
 
+      
+      
+      if (temp) {
+        temp.quantity = Math.max(1,temp.quantity += count1);
+      }
+
+      localStorage.setItem("cardData", JSON.stringify(cardData));
+      
+      displayCardDetails();
+
+   
+      count()
       
 }
 
 
-
-
+displayCardDetails();
+count();
 displayCard();
 
 

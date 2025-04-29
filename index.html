@@ -28,7 +28,8 @@
                     <!-- cart Button -->
                     <li class="nav-item"><button class="btn btn-light" type="button" data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><i
-                                class="fa-solid fa-cart-shopping"></i></button></li>
+                            class="fa-solid fa-cart-shopping"></i><span id="count"> 0</span></button>
+                            </li>
                     <!-- End of Cart Button -->
                 </ul>
             </div>
@@ -76,10 +77,12 @@
     </div>
     <!--End of offcanvas of Cart Button -->
 
-
+    <div>
+        <h5 id="user">Hello <span id="username"> Admin </span></h5>
+    </div>
 
     <!-- Slider -->
-    <div id="carouselExampleControls" class="carousel slide mt-5" data-bs-ride="carousel">
+    <div id="carouselExampleControls" class="carousel slide mt-1" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img src="/images/carousal-img-1.jpg" class="d-block w-100" alt="..." class="img-fluid">
